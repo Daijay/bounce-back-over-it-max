@@ -32,6 +32,7 @@ public class MainMenu : MonoBehaviour
     public Color outlineColor = new Color(0.40f, 0.03f, 0.05f, 1f);
 
     const string VolumeKey = "BounceBack.MasterVolume";
+    public const float DefaultVolume = 0.8f;
     const string Title = "BOUNCE BACK OVER IT";
     const string Credit = "Designed by Jayden, Brent, Tim";
 
@@ -72,7 +73,7 @@ public class MainMenu : MonoBehaviour
     int shownPercent = -1;
     string percentText = "100%";
 
-    readonly Rect[] rects = new Rect[6];
+    readonly Rect[] rects = new Rect[7];
     GUIStyle titleStyle;
     GUIStyle buttonStyle;
     GUIStyle smallStyle;
@@ -109,7 +110,7 @@ public class MainMenu : MonoBehaviour
         {
             player = GetComponent<PlayerController>();
         }
-        SoundEffects.masterVolume = Mathf.Clamp01(PlayerPrefs.GetFloat(VolumeKey, 1f));
+        SoundEffects.masterVolume = Mathf.Clamp01(PlayerPrefs.GetFloat(VolumeKey, DefaultVolume));
         if (visible && !started)
         {
             Freeze();
@@ -148,6 +149,7 @@ public class MainMenu : MonoBehaviour
         rects[3] = new Rect(x, y + bh * 0.9f, bw, bh * 0.5f);
         rects[4] = new Rect(x, y + bh * 0.9f + bh + gap, bw, bh);
         rects[5] = new Rect(x, y + (bh + gap) * 2f + bh * 0.9f + gap, bw, bh);
+        rects[6] = new Rect(x, y + (bh + gap) * 3f + bh * 0.9f + gap, bw, bh);
     }
 
 
@@ -199,6 +201,10 @@ public class MainMenu : MonoBehaviour
             else if (rects[5].Contains(mouse))
             {
                 hover = 5;
+            }
+            else if (rects[6].Contains(mouse))
+            {
+                hover = 6;
             }
         }
         if (hover != hoverIndex)
@@ -267,6 +273,10 @@ public class MainMenu : MonoBehaviour
             Screen.fullScreen = !Screen.fullScreen;
         }
         else if (index == 5)
+        {
+            GraphicsQuality.Set(!GraphicsQuality.Max);
+        }
+        else if (index == 6)
         {
             settingsOpen = false;
             hoverIndex = -1;
@@ -492,6 +502,8 @@ public class MainMenu : MonoBehaviour
         Rect tog = rects[4];
         DrawButton(tog, Screen.fullScreen ? "FULLSCREEN: ON" : "FULLSCREEN: OFF", hoverIndex == 4, a, line);
 
-        DrawButton(rects[5], "BACK", hoverIndex == 5, a, line);
+        DrawButton(rects[5], GraphicsQuality.Max ? "QUALITY: MAX" : "QUALITY: NORMAL", hoverIndex == 5, a, line);
+
+        DrawButton(rects[6], "BACK", hoverIndex == 6, a, line);
     }
 }

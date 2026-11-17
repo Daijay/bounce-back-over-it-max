@@ -70,3 +70,9 @@ BounceBack > Build Test Scene builds the player and the whole level in one go.
 
 - Do not rename or delete a MonoBehaviour the scene uses, a serialized public field, a PlayerPrefs key, a Resources path, a menu path or an object name the code finds by name (Level, EruptionTrigger, CheeseMoon).
 - Keep the sorting orders: Background -100 and up, map 1 to 8, rat 10 and up, snow 18.
+
+## Max graphics clone
+
+- This copy adds: EruptionEffects (plays when the rat touches EruptionTrigger, before the float, sounds from Resources/Sfx/eruption), GraphicsQuality (Max or Normal, PlayerPrefs BounceBack.QualityMax, toggle in SETTINGS), PostFx (runtime Volume: bloom, vignette, grade, film grain, chromatic aberration only during the eruption), LightRig (Light2D global, sun, lava, rat, moon, shadows, lit sprites, normal map for the rat), FxBursts (embers, snow, landing dust, hammer sparks), ShaderDecor (heat shimmer, snow sparkle, ice shine, haze, aura glow) with shaders in Resources/Shaders.
+- Everything is created at runtime, so no scene change or menu builder is needed.
+- Windows only. Normal turns off sun, moon light, shadows, normal maps, overlay shaders, grain, and halves particles.

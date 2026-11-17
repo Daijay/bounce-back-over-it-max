@@ -5,6 +5,7 @@ using UnityEngine.Rendering.Universal;
 public static class GraphicsQuality
 {
     const string Key = "BounceBack.QualityMax";
+    const string DefaultsKey = "BounceBack.MaxDefaultsApplied";
 
     public static event System.Action Changed;
 
@@ -29,9 +30,24 @@ public static class GraphicsQuality
     static void Boot()
     {
         Load();
+        FirstRunDefaults();
         Apply();
         Application.quitting -= RestoreAsset;
         Application.quitting += RestoreAsset;
+    }
+
+    static void FirstRunDefaults()
+    {
+        if (PlayerPrefs.GetInt(DefaultsKey, 0) != 0)
+        {
+            return;
+        }
+        PlayerPrefs.SetInt(DefaultsKey, 1);
+        PlayerPrefs.SetInt(Key, 1);
+        PlayerPrefs.SetFloat("BounceBack.MasterVolume", MainMenu.DefaultVolume);
+        PlayerPrefs.Save();
+        Resolution native = Screen.currentResolution;
+        Screen.SetResolution(native.width, native.height, FullScreenMode.FullScreenWindow);
     }
 
     static void Load()
