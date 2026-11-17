@@ -5,6 +5,11 @@ using UnityEngine.Rendering.Universal;
 public static class GraphicsQuality
 {
     const string Key = "BounceBack.QualityMax";
+#if UNITY_WEBGL
+    const int DefaultMax = 0;
+#else
+    const int DefaultMax = 1;
+#endif
     const string DefaultsKey = "BounceBack.MaxDefaultsApplied";
 
     public static event System.Action Changed;
@@ -43,11 +48,13 @@ public static class GraphicsQuality
             return;
         }
         PlayerPrefs.SetInt(DefaultsKey, 1);
-        PlayerPrefs.SetInt(Key, 1);
+        PlayerPrefs.SetInt(Key, DefaultMax);
         PlayerPrefs.SetFloat("BounceBack.MasterVolume", MainMenu.DefaultVolume);
         PlayerPrefs.Save();
+#if !UNITY_WEBGL
         Resolution native = Screen.currentResolution;
         Screen.SetResolution(native.width, native.height, FullScreenMode.FullScreenWindow);
+#endif
     }
 
     static void Load()
@@ -57,7 +64,7 @@ public static class GraphicsQuality
             return;
         }
         loaded = true;
-        max = PlayerPrefs.GetInt(Key, 1) != 0;
+        max = PlayerPrefs.GetInt(Key, DefaultMax) != 0;
     }
 
     public static void Set(bool maxQuality)

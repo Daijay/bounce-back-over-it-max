@@ -4,6 +4,16 @@ A 2D climbing game made in Unity for a hackathon. You are a rat with a hammer. Y
 
 It is inspired by Getting Over It with Bennett Foddy.
 
+## Max graphics version
+
+This is the max graphics version of the submitted game. What changed:
+
+- The volcano eruption is back: it plays right before the float to the moon.
+- URP 2D at the top settings: HDR, MSAA 8x, forced anisotropic filtering, uncompressed art with point filtering.
+- 2D lights (sun, lava, the rat, the moon), soft shadows, a normal map on the rat, bloom, vignette, color grading, light film grain, and chromatic aberration during the eruption.
+- New particles (embers, snow, landing dust, hammer sparks) and small shaders (lava shimmer, snow sparkle, ice shine, haze, aura glow).
+- Settings has a QUALITY toggle (Max or Normal). The browser build starts on Normal.
+
 ## Controls
 
 - Mouse: aim and swing the hammer. Plant it on a rock and pull yourself up.

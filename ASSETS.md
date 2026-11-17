@@ -4,6 +4,10 @@ Sources are listed as far as this repo shows. "Unconfirmed" means nothing in the
 
 The background music file is not in this repo (see README).
 
+## Shaders
+
+`Assets/Resources/Shaders/*.shader` are written for this project. `BBSpriteLit.shader` is a copy of the URP 2D Sprite-Lit-Default shader (Unity Companion License, from the Universal RP package) with a new name.
+
 ## Pictures
 
 | Files | Source |
