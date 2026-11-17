@@ -5,6 +5,7 @@ public static class FxAssets
     static Material glowMaterial;
     static Material alphaMaterial;
     static Material litMaterial;
+    static readonly System.Collections.Generic.Dictionary<string, Material> custom = new System.Collections.Generic.Dictionary<string, Material>();
     static Material particleAdd;
     static Material particleAlpha;
     static Sprite ember;
@@ -36,6 +37,17 @@ public static class FxAssets
             }
             return alphaMaterial;
         }
+    }
+
+    public static Material Custom(string shaderFile)
+    {
+        Material m;
+        if (!custom.TryGetValue(shaderFile, out m) || m == null)
+        {
+            m = MakeMaterial("Shaders/" + shaderFile, "Universal Render Pipeline/2D/Sprite-Unlit-Default");
+            custom[shaderFile] = m;
+        }
+        return m;
     }
 
     public static Material Lit

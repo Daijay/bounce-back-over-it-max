@@ -20,6 +20,7 @@ public class ChargeAura : MonoBehaviour
     PlayerController owner;
     PlayerVisuals visuals;
     SpriteRenderer glow;
+    Material glowOriginal;
     Transform glowT;
     SpriteRenderer[] flames;
     Transform[] flameT;
@@ -35,6 +36,23 @@ public class ChargeAura : MonoBehaviour
     SpriteRenderer[] trail;
     Transform[] trailT;
     bool shown;
+
+    public void UseShader(bool on)
+    {
+        if (glow == null)
+        {
+            return;
+        }
+        if (glowOriginal == null)
+        {
+            glowOriginal = glow.sharedMaterial;
+        }
+        Material m = on ? FxAssets.Custom("BBAuraGlow") : glowOriginal;
+        if (m != null)
+        {
+            glow.sharedMaterial = m;
+        }
+    }
 
     void Awake()
     {

@@ -128,8 +128,16 @@ public class GameHUD : MonoBehaviour
         {
             fill = Color.Lerp(chargeColor, Color.white, 0.5f + 0.5f * Mathf.Sin(Time.unscaledTime * 12f));
         }
+        float level = Mathf.Clamp01(player.ChargeLevel);
+        if (GraphicsQuality.Max && level > 0.01f)
+        {
+            float pulse = 0.75f + 0.25f * Mathf.Sin(Time.unscaledTime * (level >= 0.999f ? 10f : 4f));
+            float pad = bar.height * 1.4f;
+            GUI.color = new Color(fill.r, fill.g, fill.b, 0.4f * pulse * Mathf.Lerp(0.4f, 1f, level));
+            GUI.DrawTexture(new Rect(bar.x - pad, bar.y - pad, bar.width * level + pad * 2f, bar.height + pad * 2f), FxAssets.Halo.texture);
+        }
         GUI.color = fill;
-        GUI.DrawTexture(new Rect(bar.x, bar.y, bar.width * Mathf.Clamp01(player.ChargeLevel), bar.height), Texture2D.whiteTexture);
+        GUI.DrawTexture(new Rect(bar.x, bar.y, bar.width * level, bar.height), Texture2D.whiteTexture);
         GUI.color = new Color(0f, 0f, 0f, 0.8f);
         float tick = bar.x + bar.width * Mathf.Clamp01(player.MinJumpCharge / player.ChargeMax);
         GUI.DrawTexture(new Rect(tick - 1f, bar.y, 2f, bar.height), Texture2D.whiteTexture);
