@@ -599,6 +599,7 @@ public class PlayerController : MonoBehaviour
                 if (jumper.AddLanding(hit.speed, n))
                 {
                     SoundEffects.PlayHitGround(hit.speed, superJump.chargeThresholdSpeed);
+                    FxBursts.Dust(hit.point, n, hit.speed, hit.kind);
                 }
             }
         }

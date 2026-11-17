@@ -15,8 +15,7 @@ public static class GameSettings
     [RuntimeInitializeOnLoadMethod(RuntimeInitializeLoadType.BeforeSceneLoad)]
     static void Apply()
     {
-        QualitySettings.vSyncCount = 0;
-        Application.targetFrameRate = TargetFrameRate;
+        GraphicsQuality.ApplyFrameRate();
         Time.fixedDeltaTime = FixedStep;
         Time.maximumDeltaTime = MaxFrameTime;
         Physics2D.simulationMode = SimulationMode2D.FixedUpdate;

@@ -4,6 +4,9 @@ public static class FxAssets
 {
     static Material glowMaterial;
     static Material alphaMaterial;
+    static Material litMaterial;
+    static Material particleAdd;
+    static Material particleAlpha;
     static Sprite ember;
     static Sprite disc;
     static Sprite ring;
@@ -33,6 +36,54 @@ public static class FxAssets
             }
             return alphaMaterial;
         }
+    }
+
+    public static Material Lit
+    {
+        get
+        {
+            if (litMaterial == null)
+            {
+                litMaterial = MakeMaterial("Shaders/BBSpriteLit", "Universal Render Pipeline/2D/Sprite-Lit-Default");
+            }
+            return litMaterial;
+        }
+    }
+
+    public static Material ParticleAdditive
+    {
+        get
+        {
+            if (particleAdd == null)
+            {
+                particleAdd = MakeParticle(1f);
+            }
+            return particleAdd;
+        }
+    }
+
+    public static Material ParticleAlpha
+    {
+        get
+        {
+            if (particleAlpha == null)
+            {
+                particleAlpha = MakeParticle(10f);
+            }
+            return particleAlpha;
+        }
+    }
+
+    static Material MakeParticle(float destination)
+    {
+        Material m = MakeMaterial("Shaders/BBParticle", "Universal Render Pipeline/Particles/Unlit");
+        if (m != null)
+        {
+            m.SetFloat("_Src", 5f);
+            m.SetFloat("_Dst", destination);
+            m.mainTexture = Disc.texture;
+        }
+        return m;
     }
 
     static Material MakeMaterial(string resourcePath, string fallbackShader)
