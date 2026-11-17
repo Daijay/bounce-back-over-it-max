@@ -236,6 +236,7 @@ public class CutsceneDirector : MonoBehaviour
             glow.Show(false);
         }
         ClearShake();
+        EruptionEffects.Stop();
         if (overlay != null)
         {
             overlay.ResetState();
@@ -341,6 +342,21 @@ public class CutsceneDirector : MonoBehaviour
         player.Frozen = true;
         overlay.LetterboxFraction = e.letterboxPercent;
 
+        if (e.eruptionOn)
+        {
+            EruptionEffects.Play();
+            SoundEffects.PlayEruption(1f);
+            StartCoroutine(EruptionShake());
+        }
+        float lead = e.eruptionOn ? e.eruptionLeadTime : 0f;
+        float barsTime = Mathf.Max(0.05f, e.letterboxTime);
+        for (float t = 0f; t < lead; t += Time.deltaTime)
+        {
+            overlay.Letterbox = Smooth(t / barsTime);
+            yield return null;
+        }
+        overlay.Letterbox = 1f;
+
         floatStart = player.BodyRb.position;
         floatY = floatStart.y;
         floatAngle = 0f;
@@ -355,12 +371,23 @@ public class CutsceneDirector : MonoBehaviour
             glow.Show(true);
         }
 
-        for (float t = 0f; t < e.letterboxTime; t += Time.deltaTime)
+    }
+
+    IEnumerator EruptionShake()
+    {
+        EndingSettings e = ending;
+        float length = Mathf.Max(0.1f, e.eruptionShakeTime);
+        for (float t = 0f; t < length && !moonDone; t += Time.deltaTime)
         {
-            overlay.Letterbox = Smooth(t / Mathf.Max(0.05f, e.letterboxTime));
+            float rise = Mathf.Clamp01(t / 0.25f);
+            float fall = 1f - Smooth((t - length * 0.4f) / (length * 0.6f));
+            shakeAmount = e.eruptionShake * rise * fall;
             yield return null;
         }
-        overlay.Letterbox = 1f;
+        if (!moonDone)
+        {
+            shakeAmount = 0f;
+        }
     }
 
     void MoveFloat(float dt)
@@ -530,6 +557,7 @@ public class CutsceneDirector : MonoBehaviour
     IEnumerator VideoEnding()
     {
         float runTime = MainMenu.RunSeconds();
+        EruptionEffects.Stop();
         video.Begin();
         while (!video.Done)
         {
@@ -564,6 +592,7 @@ public class CutsceneDirector : MonoBehaviour
     IEnumerator MoonEnding()
     {
         EndingSettings e = ending;
+        EruptionEffects.Stop();
         overlay.TriggerFlash(e.moonFlashTime);
         IgnoreRock(false);
         if (glow != null)

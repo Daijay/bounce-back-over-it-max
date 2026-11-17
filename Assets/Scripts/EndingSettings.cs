@@ -3,6 +3,12 @@ using UnityEngine;
 [System.Serializable]
 public class EndingSettings
 {
+    [Header("Eruption before the float")]
+    public bool eruptionOn = true;
+    public float eruptionLeadTime = 1.8f;
+    public float eruptionShake = 0.45f;
+    public float eruptionShakeTime = 5f;
+
     [Header("Float up to the moon")]
     public float letterboxPercent = 0.12f;
     public float letterboxTime = 0.4f;

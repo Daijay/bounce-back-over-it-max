@@ -5,6 +5,7 @@ public static class SoundEffects
     public static float masterVolume = 1f;
     public static float hitGroundVolume = 1f;
     public static float clickVolume = 1f;
+    public static float eruptionVolume = 1f;
     public static float clickMinInterval = 0.05f;
 
     public static float hitGroundMinVolume = 0.25f;
@@ -20,6 +21,7 @@ public static class SoundEffects
     static int nextSource;
     static AudioClip hitGround;
     static AudioClip click;
+    static AudioClip eruption;
     static bool loaded;
     static float lastHitGround = -10f;
     static float lastClick = -10f;
@@ -54,6 +56,7 @@ public static class SoundEffects
             loaded = true;
             hitGround = Resources.Load<AudioClip>("Sfx/hit_ground");
             click = Resources.Load<AudioClip>("Sfx/click");
+            eruption = Resources.Load<AudioClip>("Sfx/eruption");
         }
         return true;
     }
@@ -79,6 +82,14 @@ public static class SoundEffects
         }
         lastClick = Time.unscaledTime;
         Play(click, clickVolume * volume, Random.Range(0.95f, 1.05f));
+    }
+
+    public static void PlayEruption(float volume = 1f)
+    {
+        if (Ready())
+        {
+            Play(eruption, volume * eruptionVolume, 1f);
+        }
     }
 
     public static void PlayHitGround(float impactSpeed, float thresholdSpeed)
